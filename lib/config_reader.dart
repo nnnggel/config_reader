@@ -3,6 +3,7 @@ library config_reader;
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:yaml/yaml.dart';
 
 class ConfigReader {
   static Future<Map<String, String>> readProperties(String content) async {
@@ -21,10 +22,8 @@ class ConfigReader {
       propertiesMap.putIfAbsent(line.substring(0, idx).trim(),
           () => line.substring(idx + 1, line.length).trim());
     });
-
 //    print('propertiesMap.keys: ${propertiesMap.keys.join(',')}');
 //    print('propertiesMap.values: ${propertiesMap.values.join(',')}');
-
     return propertiesMap;
   }
 
@@ -36,11 +35,36 @@ class ConfigReader {
     if (content?.isEmpty ?? true) {
       return Map<String, dynamic>();
     }
-    return jsonDecode(content);
+    Map<String, dynamic> res = Map<String, dynamic>();
+    dynamic doc = jsonDecode(content);
+    if (doc is Map) {
+      res = doc;
+    } else {
+      res.putIfAbsent("list", () => doc);
+    }
+    return res;
   }
 
   static Future<Map<String, dynamic>> readOnlineJson(String url) async {
     return readJson(await _getUrlContent(url));
+  }
+
+  static Future<Map<dynamic, dynamic>> readYaml(String content) async {
+    if (content?.isEmpty ?? true) {
+      return YamlMap();
+    }
+    Map<dynamic, dynamic> res = Map<dynamic, dynamic>();
+    YamlNode doc = loadYaml(content);
+    if (doc is YamlMap) {
+      res = doc;
+    } else {
+      res.putIfAbsent("list", () => doc);
+    }
+    return res;
+  }
+
+  static Future<Map<dynamic, dynamic>> readOnlineYaml(String url) async {
+    return readYaml(await _getUrlContent(url));
   }
 
   static Future<String> _getUrlContent(String url) async {
@@ -56,4 +80,20 @@ class ConfigReader {
     }
     return content;
   }
+}
+
+void main() {
+  ConfigReader.readYaml("""
+languages:
+ - Ruby
+ - Perl
+ - Python 
+websites:
+ YAML: yaml.org
+ Ruby: ruby-lang.org 
+ Python: python.org 
+ Perl: use.perl.org 
+  """).then((value) {
+    print(value);
+  });
 }
