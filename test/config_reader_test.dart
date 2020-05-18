@@ -1,5 +1,5 @@
-import 'package:config_reader/config_reader.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:config_reader/config_reader.dart';
 
 void main() {
   test('ConfigReader:readProperties', () async {
@@ -71,15 +71,15 @@ websites:
     expect(map2['list'][0], 'Cat');
   });
 
-  test('ConfigReader:readOnlineJson', () async {
+  test('ConfigReader:readOnlineYaml', () async {
     // map
-    Map<String, dynamic> map = await ConfigReader.readOnlineJson(
+    Map<dynamic, dynamic> map = await ConfigReader.readOnlineYaml(
         'https://raw.githubusercontent.com/nnnggel/config_reader/master/test/testfile/test_map.yaml');
     expect(map['websites']['YAML'], 'yaml.org');
     expect(map['languages'][0], 'Ruby');
 
     // list
-    Map<String, dynamic> map2 = await ConfigReader.readOnlineJson(
+    Map<dynamic, dynamic> map2 = await ConfigReader.readOnlineYaml(
         'https://raw.githubusercontent.com/nnnggel/config_reader/master/test/testfile/test_list.yaml');
     expect(map2['list'][0], 'Cat');
   });

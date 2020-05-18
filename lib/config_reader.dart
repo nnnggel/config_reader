@@ -84,15 +84,9 @@ class ConfigReader {
 
 void main() {
   ConfigReader.readYaml("""
-languages:
- - Ruby
- - Perl
- - Python 
-websites:
- YAML: yaml.org
- Ruby: ruby-lang.org 
- Python: python.org 
- Perl: use.perl.org 
+- Cat
+- Dog
+- Goldfish
   """).then((value) {
     print(value);
   });

@@ -1,8 +1,7 @@
 name: config_reader
-description: A new Flutter project.
-version: 0.0.1
-author:
-homepage:
+description: A flutter library for reading config files online or offline.
+version: 1.0.0
+homepage: https://github.com/nnnggel/config_reader
 
 environment:
   sdk: ">=2.7.0 <3.0.0"

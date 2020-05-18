@@ -1,14 +1,42 @@
-# config_reader
+## What is config_reader
+A flutter library for reading config files online or offline.  
+[github](https://github.com/nnnggel/config_reader)
 
-A new Flutter project.
+## What format does config_reader support
+[.properties](https://en.wikipedia.org/wiki/.properties) 
+> readProperties  
+> readOnlineProperties  
 
-## Getting Started
+[.json](https://en.wikipedia.org/wiki/JSON)
+> readJson  
+> readOnlineJson
 
-This project is a starting point for a Dart
-[package](https://flutter.dev/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
+[.yaml](https://en.wikipedia.org/wiki/YAML)
+> readYaml  
+> readOnlineYaml
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+## Result type
+All method will return a **MAP** for result. As json and yaml files are designed to support map or LIST as root, config_reader will add a root node for "list".
+    
+For example:    
+json: 
+```
+[
+  "Cat",
+  "Dog",
+  "Goldfish"
+]
+```
+yaml:
+```
+- Cat
+- Dog
+- Goldfish
+```
+Will return:
+```
+{list: [Cat, Dog, Goldfish]}
+```
+
+## More case
+see test/config_reader_test.dart
